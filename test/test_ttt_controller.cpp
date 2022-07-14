@@ -1,8 +1,8 @@
 #include <ros/ros.h>
 #include <ros/console.h>
-#include "baxter_tictactoe/ttt_controller.h"
+#include "panda_tictactoe/ttt_controller.h"
 
-using namespace baxter_tictactoe;
+using namespace panda_tictactoe;
 using namespace std;
 
 int main(int argc, char * argv[])

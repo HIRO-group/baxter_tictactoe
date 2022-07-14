@@ -3,7 +3,7 @@
 #include <stdlib.h> // srand, rand
 
 using namespace std;
-using namespace baxter_tictactoe;
+using namespace panda_tictactoe;
 
 tictactoeBrain::tictactoeBrain(std::string _name, std::string _strategy, bool _legacy_code) :
                                nh(_name), spinner(4), r(100), is_closing(false),
@@ -21,9 +21,9 @@ tictactoeBrain::tictactoeBrain(std::string _name, std::string _strategy, bool _l
     srand(ros::Time::now().nsec);
     setStrategy(_strategy);
 
-    boardState_sub = nh.subscribe("/baxter_tictactoe/board_state", SUBSCRIBER_BUFFER,
+    boardState_sub = nh.subscribe("/panda_tictactoe/board_state", SUBSCRIBER_BUFFER,
                                     &tictactoeBrain::boardStateCb, this);
-    tttBrain_pub   = nh.advertise<TTTBrainState>("/baxter_tictactoe/ttt_brain_state", 1);
+    tttBrain_pub   = nh.advertise<TTTBrainState>("/panda_tictactoe/ttt_brain_state", 1);
 
     brainstate_timer = nh.createTimer(ros::Duration(0.1), &tictactoeBrain::publishTTTBrainState, this, false);
 
@@ -105,13 +105,13 @@ void tictactoeBrain::InternalThreadEntry()
 
             playOneGame();
 
-            if (curr_game > num_games) { setBrainState(baxter_tictactoe::TTTBrainState::MATCH_FINISHED); }
-            else                       { setBrainState(baxter_tictactoe::TTTBrainState::GAME_STARTED);   }
+            if (curr_game > num_games) { setBrainState(panda_tictactoe::TTTBrainState::MATCH_FINISHED); }
+            else                       { setBrainState(panda_tictactoe::TTTBrainState::GAME_STARTED);   }
         }
         else if (getBrainState() == TTTBrainState::MATCH_FINISHED)
         {
             saySentence("Game over. It was my pleasure to win over you. Thanks for being so human.", 10);
-            ROS_INFO("Baxter Wins: %i\tHuman Wins: %i\tTies: %i", wins[0], wins[1], wins[2]);
+            ROS_INFO("panda Wins: %i\tHuman Wins: %i\tTies: %i", wins[0], wins[1], wins[2]);
             break;
         }
 
@@ -254,7 +254,7 @@ void tictactoeBrain::setBrainState(int _state)
     }
 }
 
-void tictactoeBrain::boardStateCb(const baxter_tictactoe::MsgBoard &_msg)
+void tictactoeBrain::boardStateCb(const panda_tictactoe::MsgBoard &_msg)
 {
     ROS_DEBUG("New TTT board state received");
     std::lock_guard<std::mutex> lck(mutex_curr_board);

@@ -1,16 +1,16 @@
 #include <ros/ros.h>
 #include <sound_play/sound_play.h>
 
-#include <baxter_tictactoe/MsgBoard.h>
-#include <baxter_tictactoe/TTTBrainState.h>
+#include <panda_tictactoe/MsgBoard.h>
+#include <panda_tictactoe/TTTBrainState.h>
 
-#include "baxter_tictactoe/ttt_controller.h"
-#include "baxter_tictactoe/tictactoe_utils.h"
+#include "panda_tictactoe/ttt_controller.h"
+#include "panda_tictactoe/tictactoe_utils.h"
 
 #include <thread>
 #include <mutex>
 
-namespace baxter_tictactoe
+namespace panda_tictactoe
 {
 
 #define WIN_NONE    0
@@ -42,15 +42,15 @@ private:
                                      // (wins[0]->robot, wins[1]->opponent, wins[2]->ties)
 
     /* STATE OF THE BOARD */
-    baxter_tictactoe::Board      curr_board; // Board as read from the board state sensor
-    baxter_tictactoe::Board  internal_board; // Internal model of the state of the world
+    panda_tictactoe::Board      curr_board; // Board as read from the board state sensor
+    panda_tictactoe::Board  internal_board; // Internal model of the state of the world
 
     ros::Subscriber   boardState_sub; // subscriber to receive the state of the board
     std::mutex      mutex_curr_board;
     bool           is_board_detected;
 
     /* STATE OF THE TTT DEMO */
-    baxter_tictactoe::TTTBrainState    s; // state of the system
+    panda_tictactoe::TTTBrainState    s; // state of the system
     ros::Timer          brainstate_timer; // timer to publish the state of the system at a specific rate
 
     ros::Publisher  tttBrain_pub; // publisher to publish state of the system
@@ -84,7 +84,7 @@ private:
      *
      * \param msg the message with the new the state of each of the cells
      **/
-    void boardStateCb(const baxter_tictactoe::MsgBoard &_msg);
+    void boardStateCb(const panda_tictactoe::MsgBoard &_msg);
 
     /**
      * It determines randomly the next empty cell to place a token.
@@ -201,7 +201,7 @@ public:
      *
      * @return the latest board published by boardstate
      */
-    baxter_tictactoe::Board  getCurrBoard();
+    panda_tictactoe::Board  getCurrBoard();
 
     /* SETTERS */
     void setStrategy(std::string _strategy);

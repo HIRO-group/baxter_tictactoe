@@ -2,7 +2,7 @@
 # Authors: Alessandro Roncone, Olivier Mangin, Álvaro Castro González
 # CopyPolicy: Released under the terms of the LGPLv2.1.
 cmake_minimum_required(VERSION 2.8.3)
-project(baxter_tictactoe)
+project(panda_tictactoe)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"))
     set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
@@ -102,7 +102,7 @@ generate_messages(DEPENDENCIES
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
     INCLUDE_DIRS lib/include
-    LIBRARIES baxter_tictactoe
+    LIBRARIES panda_tictactoe
     CATKIN_DEPENDS message_runtime
 )
 
@@ -133,34 +133,34 @@ add_executable(tictactoe_brain            src/tictactoe_brain/tictactoeBrain.h
                                           src/tictactoe_brain/tictactoeBrain.cpp
                                           src/tictactoe_brain/tictactoe_brain.cpp)
 add_executable(hsv_range_finder           src/hsv_range_finder/hsv_range_finder.cpp)
-add_executable(baxterDisplay              src/baxterDisplay/baxterDisplay.cpp)
+add_executable(pandaDisplay              src/pandaDisplay/baxterDisplay.cpp)
 add_executable(board_state_sensor         src/board_state_sensor/boardState.h
                                           src/board_state_sensor/boardState.cpp
                                           src/board_state_sensor/board_state_sensor.cpp)
 
 ## Add cmake target dependencies of the executable
-add_dependencies(tictactoe_brain          baxter_tictactoe_generate_messages_cpp
+add_dependencies(tictactoe_brain          panda_tictactoe_generate_messages_cpp
                                           ${${PROJECT_NAME}_EXPORTED_TARGETS}
                                           ${catkin_EXPORTED_TARGETS})
-add_dependencies(hsv_range_finder         baxter_tictactoe_generate_messages_cpp
+add_dependencies(hsv_range_finder         panda_tictactoe_generate_messages_cpp
                                           ${${PROJECT_NAME}_EXPORTED_TARGETS}
                                           ${catkin_EXPORTED_TARGETS})
-add_dependencies(baxterDisplay            baxter_tictactoe_generate_messages_cpp
+add_dependencies(pandaDisplay            panda_tictactoe_generate_messages_cpp
                                           ${${PROJECT_NAME}_EXPORTED_TARGETS}
                                           ${catkin_EXPORTED_TARGETS})
-add_dependencies(board_state_sensor       baxter_tictactoe_generate_messages_cpp
+add_dependencies(board_state_sensor       panda_tictactoe_generate_messages_cpp
                                           ${${PROJECT_NAME}_EXPORTED_TARGETS}
                                           ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(tictactoe_brain      baxter_tictactoe
+target_link_libraries(tictactoe_brain      panda_tictactoe
                                            ${catkin_LIBRARIES})
-target_link_libraries(hsv_range_finder     baxter_tictactoe
+target_link_libraries(hsv_range_finder     panda_tictactoe
                                            ${OpenCV_LIBS}
                                            ${catkin_LIBRARIES})
-target_link_libraries(baxterDisplay        ${OpenCV_LIBS}
+target_link_libraries(pandaDisplay        ${OpenCV_LIBS}
                                            ${catkin_LIBRARIES})
-target_link_libraries(board_state_sensor   baxter_tictactoe
+target_link_libraries(board_state_sensor   panda_tictactoe
                                            ${OpenCV_LIBS}
                                            ${QT_LIBRARIES}
                                            ${catkin_LIBRARIES})
@@ -169,9 +169,9 @@ target_link_libraries(board_state_sensor   baxter_tictactoe
 IF(COMPILE_TESTS STREQUAL true)
     add_executable(test_ttt_controller          test/test_ttt_controller.cpp)
 
-    add_dependencies(test_ttt_controller        baxter_tictactoe_generate_messages_cpp)
+    add_dependencies(test_ttt_controller        panda_tictactoe_generate_messages_cpp)
 
-    target_link_libraries(test_ttt_controller   baxter_tictactoe  ${catkin_LIBRARIES})
+    target_link_libraries(test_ttt_controller   panda_tictactoe  ${catkin_LIBRARIES})
 #ELSE()
 #    message(${PROJECT_NAME} ": Tests will not be compiled")
 ENDIF()
@@ -214,10 +214,10 @@ install(DIRECTORY launch/
 ## Add gtest based cpp test target and link libraries
 if(CATKIN_ENABLE_TESTING)
   # find_package(rostest            REQUIRED)
-  # find_package(baxter_description REQUIRED)
+  # find_package(panda_description REQUIRED)
 
   catkin_add_gtest(test_utils test/test_utils_lib.cpp)
-  add_dependencies(test_utils   baxter_tictactoe_generate_messages_cpp
+  add_dependencies(test_utils   panda_tictactoe_generate_messages_cpp
                                 ${${PROJECT_NAME}_EXPORTED_TARGETS}
                                 ${catkin_EXPORTED_TARGETS})
   target_link_libraries(test_utils ${PROJECT_NAME} ${catkin_LIBRARIES})
