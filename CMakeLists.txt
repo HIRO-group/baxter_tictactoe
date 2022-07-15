@@ -14,9 +14,10 @@ set(COMPILE_TESTS  false)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-             human_robot_collaboration_lib
-             human_robot_collaboration_msgs
-             baxter_core_msgs
+            #  human_robot_collaboration_lib
+            #  human_robot_collaboration_msgs
+            #  baxter_core_msgs
+             franka_control
              cv_bridge
              image_transport
              message_generation
@@ -66,7 +67,7 @@ add_message_files(FILES
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages(DEPENDENCIES
-    baxter_core_msgs
+    # baxter_core_msgs
     geometry_msgs
     std_msgs
 )
@@ -133,7 +134,7 @@ add_executable(tictactoe_brain            src/tictactoe_brain/tictactoeBrain.h
                                           src/tictactoe_brain/tictactoeBrain.cpp
                                           src/tictactoe_brain/tictactoe_brain.cpp)
 add_executable(hsv_range_finder           src/hsv_range_finder/hsv_range_finder.cpp)
-add_executable(pandaDisplay              src/pandaDisplay/baxterDisplay.cpp)
+# add_executable(pandaDisplay              src/pandaDisplay/baxterDisplay.cpp)
 add_executable(board_state_sensor         src/board_state_sensor/boardState.h
                                           src/board_state_sensor/boardState.cpp
                                           src/board_state_sensor/board_state_sensor.cpp)

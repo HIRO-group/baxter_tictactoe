@@ -9,9 +9,9 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
-#include <robot_perception/hsv_detection.h>
+#include <robot_perception/hsv_detection.h> 
 
-#include <robot_interface/robot_interface.h>
+#include <robot_interface/robot_interface.h>  // all robot_interface needs to be changed to franka_ros or libfranka
 #include <robot_interface/arm_ctrl.h>
 #include <robot_interface/gripper.h>
 
@@ -102,7 +102,7 @@ private:
 
         /*
          * Calculates cell offsets; also prompts user to move board withing 'reachable zone'
-         * (displayed on screen) if board is out of reach of Baxter's arm
+         * (displayed on screen) if board is out of reach of panda's arm
          *
          */
         void processImage(float dist);
@@ -121,7 +121,7 @@ private:
          *            storing board contours, integer indicating the area of the board,
          *            and a vector<cv::Point> of the board's four corners
          */
-        void isolateBoard(baxter_tictactoe::Contours &contours, int &board_area,
+        void isolateBoard(panda_tictactoe::Contours &contours, int &board_area,
                           std::vector<cv::Point> &board_corners, cv::Mat input, cv::Mat &output);
 
         /*
@@ -137,13 +137,13 @@ private:
          * @param      board area, cell contours, output Mat displaying cells, and height
          *            from arm to board surface
          */
-        void setOffsets(int board_area, baxter_tictactoe::Contours contours, float dist,
+        void setOffsets(int board_area, panda_tictactoe::Contours contours, float dist,
                         cv::Mat &output, std::vector<cv::Point> &centroids);
 
         std::vector<geometry_msgs::Point> getOffsets() { return _offsets; };
 
         /**
-         * calculates the perimeter of the area representing all points reachable to the Baxter arm
+         * calculates the perimeter of the area representing all points reachable to the panda arm
          *
          * @param contours       board contours
          * @param dist           distance between starting position and play surface
@@ -152,18 +152,18 @@ private:
          * @param cell_to_corner vector representing distance between center of corner cell
          *                       and corner of corner cell
          */
-        void setZone(baxter_tictactoe::Contours contours, float dist, std::vector<cv::Point> board_corners,
+        void setZone(panda_tictactoe::Contours contours, float dist, std::vector<cv::Point> board_corners,
                      std::vector<cv::Point> c, std::vector<cv::Point> &cell_to_corner);
 
         /*
-         * checks if Baxter's arm has a joint angles solution for all the calculated cell offsets
+         * checks if panda's arm has a joint angles solution for all the calculated cell offsets
          *
          * @return     true if offsets are all reachable; false otherwise
          */
         bool offsetsReachable();
 
         /*
-         * checks if Baxter's arm has a joint angles solution for a certain point on the board
+         * checks if panda's arm has a joint angles solution for a certain point on the board
          * scanning image
          *
          * @return     true if point is reachable; false otherwise

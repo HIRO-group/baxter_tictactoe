@@ -1,15 +1,23 @@
-# Baxter TicTacToe [![Build Status](https://travis-ci.org/ScazLab/baxter_tictactoe.svg?branch=master)](https://travis-ci.org/ScazLab/baxter_tictactoe) [![Issues](https://img.shields.io/github/issues/ScazLab/baxter_tictactoe.svg?label=Issues)](https://github.com/ScazLab/baxter_tictactoe/issues) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0d9745ef739e4a399abb58b025d9fc19)](https://www.codacy.com/app/Baxter-collaboration/baxter_tictactoe?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ScazLab/baxter_tictactoe&amp;utm_campaign=Badge_Grade) [![Docker Build Status](https://img.shields.io/docker/build/scazlab/baxter_tictactoe.svg)](https://hub.docker.com/r/scazlab/baxter_tictactoe/) [![Docker Automated Build](https://img.shields.io/docker/automated/scazlab/baxter_tictactoe.svg)](https://hub.docker.com/r/scazlab/baxter_tictactoe/)
+# Panda TicTacToe 
 
-Playing TicTacToe with the Baxter collaborative robot.
+Playing TicTacToe with the Panda collaborative robot.
 
 ![setup](https://cloud.githubusercontent.com/assets/4378663/26005307/ac35d298-3706-11e7-84c7-c278a01fe3b7.jpg)
 
 This code is released under a GNU GPL v2 license (see LICENSE file for more information).
 
+## TOOD:
+This is currently set up for the baxter robot and will need to be modified for the panda robot.
+ * Update to >=OpenCV 4.2
+ * change all baxter control calls to panda control calls
+ * change usb camera/hand camera to Realsense
+ * delete display stuff or update to run on TV
+ * recalibrate color idnetification for playing pieces
+
 ## Requirements
 
- * a Baxter robot
- * a usb camera
+ * a Panda robot
+ * a realsense camera
  * sudo apt-get install festival v4l-utils
 
 ## Usage

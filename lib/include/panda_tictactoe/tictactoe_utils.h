@@ -5,11 +5,11 @@
 #include <sensor_msgs/image_encodings.h>
 #include <opencv2/core/core.hpp>
 
-#include "baxter_tictactoe/MsgBoard.h"
+#include "panda_tictactoe/MsgBoard.h"
 
 namespace enc = sensor_msgs::image_encodings;
 
-namespace baxter_tictactoe
+namespace panda_tictactoe
 {
 
 #define ACTION_SCAN         "scan"

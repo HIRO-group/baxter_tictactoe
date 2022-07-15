@@ -1,8 +1,8 @@
-#include "baxter_tictactoe/ttt_controller.h"
+#include "panda_tictactoe/ttt_controller.h"
 
 using namespace std;
-using namespace baxter_core_msgs;
-using namespace baxter_tictactoe;
+using namespace panda_core_msgs;
+using namespace panda_tictactoe;
 using namespace geometry_msgs;
 using namespace sensor_msgs;
 using namespace cv;
@@ -38,7 +38,7 @@ TTTController::TTTController(string name, string limb, bool legacy_code, bool us
         insertAction(ACTION_PICKUP,  static_cast<f_action>(&TTTController::pickUpTokenImpl));
         insertAction(ACTION_PUTDOWN, static_cast<f_action>(&TTTController::putDownTokenImpl));
 
-        _img_sub = _img_trp.subscribe("/cameras/"+getLimb()+"_hand_camera/image",
+        _img_sub = _img_trp.subscribe("/cameras/"+getLimb()+"_hand_camera/image",  // TODO: Change all cameras to Intel Realsense
                                SUBSCRIBER_BUFFER, &TTTController::imageCb, this);
     }
 
@@ -596,7 +596,7 @@ void TTTController::setZone(Contours contours, float dist, vector<cv::Point> boa
 
     // if the centroid of a corner cell is reachable,
     // iterate and check if a location 10 pixels further from arm is still reachable
-    // to establish a boundary of how far Baxter's arm can reach
+    // to establish a boundary of how far Panda's arm can reach
     while(pointReachable(c[0], dist)) {c[0].x += 10.0;}
     while(pointReachable(c[2], dist)) {c[2].x -= 10.0;}
     while(pointReachable(c[6], dist)) {c[6].x += 10.0;}
