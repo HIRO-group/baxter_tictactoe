@@ -1,4 +1,4 @@
-#include "baxter_tictactoe/tictactoe_utils.h"
+#include "panda_tictactoe/tictactoe_utils.h"
 
 #include <stdlib.h>
 
@@ -12,7 +12,7 @@
 #include <QApplication>
 
 using namespace std;
-using namespace baxter_tictactoe;
+using namespace panda_tictactoe;
 
 /**************************************************************************/
 /**                        CELL                                          **/
@@ -458,9 +458,9 @@ void Board::fromMsgBoard(const baxter_tictactoe::MsgBoard &msgb)
     }
 }
 
-baxter_tictactoe::MsgBoard Board::toMsgBoard()
+panda_tictactoe::MsgBoard Board::toMsgBoard()
 {
-    baxter_tictactoe::MsgBoard res;
+    panda_tictactoe::MsgBoard res;
     res.header = std_msgs::Header();
 
     if (getNumCells() == 0 || getNumCells() != res.cells.size())
