@@ -142,22 +142,6 @@ bool TTTController::boardPossFromParam(XmlRpc::XmlRpcValue _params)
 /**************************************************************************/
 bool TTTController::pickUpToken()
 {
-    if (_legacy_code == true)
-    {
-        createCVWindows();
-        cv::Point offset(0,0);
-        // check if token is present before starting movement loop
-        // (prevent gripper from colliding with play surface)
-        while(RobotInterface::ok())
-        {
-            if(computeTokenOffset(offset)) break;
-
-            ROS_WARN_THROTTLE(2,"No token detected by hand camera.");
-            r.sleep();
-        }
-
-        offset = cv::Point(0,0);
-    }
 
     ros::Time start_time = ros::Time::now();
     double start_z = getPos().z;
@@ -166,22 +150,9 @@ bool TTTController::pickUpToken()
     {
         double px = 0.0, py = 0.0, pz = 0.0;
 
-        if (_legacy_code == true)
-        {
-            cv::Point offset(0,0);
-            computeTokenOffset(offset);
-
-            // move incrementally towards token
-            px = getPos().x - 0.07 * offset.y / 500;  // fixed constant to avoid going too fast
-            py = getPos().y - 0.07 * offset.x / 500;  // fixed constant to avoid going too fast
-            pz = start_z    - 0.08 * (ros::Time::now() - start_time).toSec();
-        }
-        else
-        {
-            px = _tiles_pile_pos.x;
-            py = _tiles_pile_pos.y;
-            pz = start_z - 0.15 * (ros::Time::now() - start_time).toSec();
-        }
+        px = _tiles_pile_pos.x;
+        py = _tiles_pile_pos.y;
+        pz = start_z - 0.15 * (ros::Time::now() - start_time).toSec();
 
         goToPoseNoCheck(px,py,pz,VERTICAL_ORI_L);
 
@@ -189,7 +160,6 @@ bool TTTController::pickUpToken()
         {
             ROS_WARN("I went too low! Exiting.");
 
-            if (_legacy_code == true) { destroyCVWindows(); }
             close();
 
             return false;
@@ -199,7 +169,6 @@ bool TTTController::pickUpToken()
         r.sleep();
     }
 
-    if (_legacy_code == true) { destroyCVWindows(); }
     close();
     return true;
 }
@@ -685,14 +654,7 @@ void TTTController::setHomeConfiguration()
 {
     if (getLimb() == "left")
     {
-        if (_legacy_code == true)
-        {
-            setHomeConf( 0.688, -0.858, -1.607, 1.371, 0.742, 1.733, 0.007);
-        }
-        else
-        {
-            setHomeConf( 0.581, -0.923, -1.162, 1.722, 0.653, 1.193, 0.024);
-        }
+        setHomeConf( 0.581, -0.923, -1.162, 1.722, 0.653, 1.193, 0.024);
     }
     else if (getLimb() == "right")
     {
@@ -722,40 +684,20 @@ bool TTTController::hoverAboveCenterOfBoard()
 {
     ROS_INFO_COND(print_level>=2, "Hovering above center of board..");
 
-    if (_legacy_code == true)
-    {
-        return goToPose(HOVER_BOARD_X + _offsets[4].x,
-                        HOVER_BOARD_Y + _offsets[4].y,
-                        HOVER_BOARD_Z - _offsets[4].z + 0.3,    // TODO this minus sign is a bug
-                        VERTICAL_ORI_L);
-    }
-    else
-    {
-        return goToPose(_board_centers_poss[4].x,
-                        _board_centers_poss[4].y,
-                        _board_centers_poss[4].z + 0.3,
-                        VERTICAL_ORI_L);
-    }
+    return goToPose(_board_centers_poss[4].x,
+                    _board_centers_poss[4].y,
+                    _board_centers_poss[4].z + 0.3,
+                    VERTICAL_ORI_L);
 }
 
 bool TTTController::hoverAboveCell()
 {
     ROS_INFO_COND(print_level>=2, "Hovering above cell..");
 
-    if (_legacy_code == true)
-    {
-        return goToPose(HOVER_BOARD_X + _offsets[getObjectID()-1].x,
-                        HOVER_BOARD_Y + _offsets[getObjectID()-1].y,
-                        HOVER_BOARD_Z - _offsets[getObjectID()-1].z + 0.05,
-                        VERTICAL_ORI_L);
-    }
-    else
-    {
-        return goToPose(_board_centers_poss[getObjectID()-1].x,
-                        _board_centers_poss[getObjectID()-1].y,
-                        _board_centers_poss[getObjectID()-1].z + 0.05,
-                        VERTICAL_ORI_L);
-    }
+    return goToPose(_board_centers_poss[getObjectID()-1].x,
+                    _board_centers_poss[getObjectID()-1].y,
+                    _board_centers_poss[getObjectID()-1].z + 0.05,
+                    VERTICAL_ORI_L);
 }
 
 bool TTTController::hoverAboveTokens(double height)

@@ -11,9 +11,8 @@
 
 #include <robot_perception/hsv_detection.h> 
 
-#include <robot_interface/robot_interface.h>  // all robot_interface needs to be changed to franka_ros or libfranka
-#include <robot_interface/arm_ctrl.h>
-#include <robot_interface/gripper.h>
+#include <franka/robot.h>
+#include <franka/gripper.h>
 
 #include "tictactoe_utils.h"
 
@@ -24,6 +23,7 @@
 class TTTController : public ArmCtrl
 {
 private:
+
     ros::Rate r;
 
     image_transport::ImageTransport _img_trp;
@@ -218,6 +218,10 @@ private:
     bool putDownTokenImpl();
 
 public:
+
+    franka::Gripper gripper("172.16.0.1");
+    franka::Robot robot("172.16.0.2");
+
     TTTController(std::string name, std::string limb, bool legacy_code = false,
                   bool _use_robot = true, bool use_forces = false);
     ~TTTController();
