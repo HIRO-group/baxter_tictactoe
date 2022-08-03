@@ -219,7 +219,7 @@ private:
 
 public:
 
-    franka::Gripper gripper("172.16.0.1");
+    franka::Gripper gripper("172.16.0.2");
     franka::Robot robot("172.16.0.2");
 
     TTTController(std::string name, std::string limb, bool legacy_code = false,

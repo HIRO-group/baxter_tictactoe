@@ -3,7 +3,7 @@
 # CopyPolicy: Released under the terms of the LGPLv2.1.
 
 cmake_minimum_required(VERSION 2.8.3)
-# project(baxter_tictactoe)
+# project(panda_tictactoe)
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
@@ -16,7 +16,7 @@ add_library(${PROJECT_NAME}   include/${PROJECT_NAME}/tictactoe_utils.h
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-add_dependencies(${PROJECT_NAME}   baxter_tictactoe_generate_messages_cpp
+add_dependencies(${PROJECT_NAME}   panda_tictactoe_generate_messages_cpp
                                    ${${PROJECT_NAME}_EXPORTED_TARGETS}
                                    ${catkin_EXPORTED_TARGETS})
 

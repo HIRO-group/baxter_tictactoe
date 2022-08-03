@@ -298,14 +298,14 @@ public:
     /**
      * Converts a MsgBoard object to the board.
      */
-    void fromMsgBoard(const baxter_tictactoe::MsgBoard &msgb);
+    void fromMsgBoard(const panda_tictactoe::MsgBoard &msgb);
 
     /**
      * Converts the board to a MsgBoard (ready to be sent)
      *
      * @return the MsgBoard
      */
-    baxter_tictactoe::MsgBoard toMsgBoard();
+    panda_tictactoe::MsgBoard toMsgBoard();
 
     /**
      * Print function.

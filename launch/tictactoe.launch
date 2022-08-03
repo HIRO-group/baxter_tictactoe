@@ -1,7 +1,6 @@
 <!-- Launching all required nodes for playing Tic Tac Toe with Baxter -->
 <launch>
 
-    <include file="$(find baxter_tictactoe)/launch/board_sensor.launch" />
 
     <!-- Range thresholds for the red tokens -->
     <rosparam param = "ttt_controller/hsv_red">
