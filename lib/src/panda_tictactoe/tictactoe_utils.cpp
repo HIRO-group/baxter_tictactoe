@@ -440,7 +440,7 @@ bool Board::threeInARow(const string& _col)
     return false;
 }
 
-void Board::fromMsgBoard(const baxter_tictactoe::MsgBoard &msgb)
+void Board::fromMsgBoard(const panda_tictactoe::MsgBoard &msgb)
 {
     resetBoard();
 

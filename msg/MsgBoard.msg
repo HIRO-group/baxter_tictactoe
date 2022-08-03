@@ -1,2 +1,2 @@
 Header header
-baxter_tictactoe/MsgCell[9] cells
+panda_tictactoe/MsgCell[9] cells

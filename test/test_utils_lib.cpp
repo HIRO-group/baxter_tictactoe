@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 
-#include "baxter_tictactoe/tictactoe_utils.h"
+#include "panda_tictactoe/tictactoe_utils.h"
 
-using namespace baxter_tictactoe;
+using namespace panda_tictactoe;
 
 // Declare a test
 TEST(UtilsLib, testCellClass)
