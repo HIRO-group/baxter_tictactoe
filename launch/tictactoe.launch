@@ -1,4 +1,4 @@
-<!-- Launching all required nodes for playing Tic Tac Toe with Baxter -->
+<!-- Launching all required nodes for playing Tic Tac Toe with Panda -->
 <launch>
 
 
@@ -47,7 +47,7 @@
     <param name="ttt_controller/voice"       type="str" value="voice_kal_diphone" />
     <param name="ttt_controller/robot_color" type="str" value=             "red" />
 
-    <node name="tictactoe_brain" pkg="baxter_tictactoe" type="tictactoe_brain" respawn="false" output="screen" required="true"/>
+    <node name="tictactoe_brain" pkg="panda_tictactoe" type="tictactoe_brain" respawn="false" output="screen" required="true"/>
 
     <node name="soundplay_node" pkg="sound_play" type="soundplay_node.py" required="true"/>
 </launch>

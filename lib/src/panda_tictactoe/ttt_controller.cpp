@@ -185,7 +185,7 @@ bool TTTController::computeTokenOffset(cv::Point &offset)
 
     Contours contours;
     vector<cv::Vec4i> hierarchy;
-    findContours(token, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE);
+    findContours(token, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
 
     token = Mat::zeros(_img_size, CV_8UC1);
 
@@ -217,7 +217,7 @@ bool TTTController::computeTokenOffset(cv::Point &offset)
 
         // reconstruct token's square shape
         rectangle(token, Rect(x_min, y_min, y_max - y_min, y_max - y_min),
-                                          Scalar(255,255,255), CV_FILLED);
+                                          Scalar(255,255,255), cv::FILLED);
 
         // find and draw the center of the token and the image
         int x_mid = int((x_max + x_min) / 2);
@@ -226,8 +226,8 @@ bool TTTController::computeTokenOffset(cv::Point &offset)
         int x_trg = int(_img_size.width/2+20);   // some offset to center the tile on the gripper
         int y_trg = int(_img_size.height/2-40);  // some offset to center the tile on the gripper
 
-        circle(token, cv::Point(x_mid, y_mid), 3, Scalar(0, 0, 0), CV_FILLED);
-        circle(token, cv::Point(x_trg, y_trg), 3, Scalar(180, 40, 40), CV_FILLED);
+        circle(token, cv::Point(x_mid, y_mid), 3, Scalar(0, 0, 0), cv::FILLED);
+        circle(token, cv::Point(x_trg, y_trg), 3, Scalar(180, 40, 40), cv::FILLED);
 
         offset.x = x_mid - x_trg;
         offset.y = y_mid - y_trg;
@@ -255,7 +255,7 @@ cv::Mat TTTController::detectPool()
     Contours contours;
 
     // find outer board contours
-    findContours(black, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE);
+    findContours(black, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
 
     double largest = 0;
     int largest_index = 0;
@@ -273,7 +273,7 @@ cv::Mat TTTController::detectPool()
     // contour w/ largest area is most likely the inner board
     vector<cv::Point> contour = contours[largest_index];
 
-    drawContours(out, contours, largest_index, Scalar(255,255,255), CV_FILLED);
+    drawContours(out, contours, largest_index, Scalar(255,255,255), cv::FILLED);
     return out;
 }
 
@@ -411,7 +411,7 @@ void TTTController::isolateBlack(Mat &output)
 {
     Mat gray;
     std::lock_guard<std::mutex> lock(mutex_img);
-    cvtColor(_curr_img, gray, CV_BGR2GRAY);
+    cvtColor(_curr_img, gray, cv::gapi::BGR2GRAY);
     threshold(gray, output, 55, 255, cv::THRESH_BINARY);
 }
 
@@ -420,7 +420,7 @@ void TTTController::isolateBlue(Mat &output)
     Mat hsv(_img_size, CV_8UC1);
 
     std::lock_guard<std::mutex> lock(mutex_img);
-    cvtColor(_curr_img, hsv, CV_BGR2HSV);
+    cvtColor(_curr_img, hsv, cv::gapi::BGR2HSV);
 
     output = hsvThreshold(hsv, hsv_blue);
 }
@@ -432,7 +432,7 @@ void TTTController::isolateBoard(Contours &contours, int &board_area,
 
     vector<cv::Vec4i> hierarchy; // captures contours within contours
 
-    findContours(input, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE);
+    findContours(input, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
 
     double largest = 0, next_largest = 0;
     int largest_index = 0, next_largest_index = 0;
@@ -456,9 +456,9 @@ void TTTController::isolateBoard(Contours &contours, int &board_area,
 
     board_area = contourArea(contours[next_largest_index], false);
 
-    drawContours(output, contours, next_largest_index, Scalar(255,255,255), CV_FILLED, 8, hierarchy);
+    drawContours(output, contours, next_largest_index, Scalar(255,255,255), cv::FILLED, 8, hierarchy);
 
-    findContours(output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE);
+    findContours(output, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
 
     largest = 0;
     largest_index = 0;
@@ -507,7 +507,7 @@ void TTTController::isolateBoard(Contours &contours, int &board_area,
 
     for (size_t i = 0; i < contours.size(); i++)
     {
-        drawContours(output, contours, i, Scalar(255,255,255), CV_FILLED);
+        drawContours(output, contours, i, Scalar(255,255,255), cv::FILLED);
     }
 }
 
@@ -523,7 +523,7 @@ void TTTController::setOffsets(int board_area, Contours contours, float dist, Ma
 {
     cv::Point center(_img_size.width / 2, _img_size.height / 2);
 
-    circle(output, center, 3, Scalar(180,40,40), CV_FILLED);
+    circle(output, center, 3, Scalar(180,40,40), cv::FILLED);
     cv::putText(output, "Center", center, cv::FONT_HERSHEY_PLAIN, 0.9, cv::Scalar(180,40,40));
 
     for (size_t i = contours.size(); i >= 3; i -= 3)
@@ -543,7 +543,7 @@ void TTTController::setOffsets(int board_area, Contours contours, float dist, Ma
         centroids[i] = centroid;
 
         // cv::putText(output, intToString(i), centroid, cv::FONT_HERSHEY_PLAIN, 0.9, cv::Scalar(180,40,40));
-        // circle(output, centroid, 2, Scalar(180,40,40), CV_FILLED);
+        // circle(output, centroid, 2, Scalar(180,40,40), cv::FILLED);
         line(output, centroid, center, cv::Scalar(180,40,40), 1);
 
         _offsets[i].x = (centroid.y - center.y) * 0.0025 * dist + 0.04;

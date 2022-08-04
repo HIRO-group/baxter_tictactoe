@@ -134,9 +134,9 @@ cv::Mat Cell::maskImage(const cv::Mat &_src)
 {
     cv::Mat mask = cv::Mat::zeros(_src.rows, _src.cols, CV_8UC1);
 
-    // CV_FILLED fills the connected components found with white
+    // cv::FILLED fills the connected components found with white
     cv::drawContours(mask, vector<vector<cv::Point> >(1,contour),
-                                            -1, cv::Scalar(255), CV_FILLED);
+                                            -1, cv::Scalar(255), cv::FILLED);
 
     cv::Mat im_crop(_src.rows, _src.cols, CV_8UC3);
     im_crop.setTo(cv::Scalar(0));
@@ -517,8 +517,8 @@ cv::Mat Board::maskImage(const cv::Mat &_src)
 {
     cv::Mat mask = cv::Mat::zeros(_src.rows, _src.cols, CV_8UC1);
 
-    // CV_FILLED fills the connected components found with white
-    cv::drawContours(mask, getContours(), -1, cv::Scalar(255), CV_FILLED);
+    // cv::FILLED fills the connected components found with white
+    cv::drawContours(mask, getContours(), -1, cv::Scalar(255), cv::FILLED);
 
     cv::Mat im_crop(_src.rows, _src.cols, CV_8UC3);
     im_crop.setTo(cv::Scalar(0));
