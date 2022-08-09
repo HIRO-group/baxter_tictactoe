@@ -11,6 +11,15 @@ using namespace cv;
 /*                            TTTController                               */
 /**************************************************************************/
 
+bool pandaWorking { // replacement for pandaWorking() , same code
+
+    bool working = ros::ok();
+    working = working && getState() != KILLED && getState() != STOPPED;
+
+    return working;
+
+}
+
 TTTController::TTTController(string name, string limb, bool legacy_code, bool use_robot, bool use_forces):
                              ArmCtrl(name, limb, use_robot, use_forces, false, false),
                              r(100), _img_trp(nh), _legacy_code(legacy_code), _is_img_empty(true)
@@ -146,7 +155,7 @@ bool TTTController::pickUpToken()
     ros::Time start_time = ros::Time::now();
     double start_z = getPos().z;
 
-    while(RobotInterface::ok())
+    while(pandaWorking())
     {
         double px = 0.0, py = 0.0, pz = 0.0;
 
@@ -175,8 +184,8 @@ bool TTTController::pickUpToken()
 
 bool TTTController::computeTokenOffset(cv::Point &offset)
 {
-    Mat token(_img_size, CV_8UC1);
-    Mat pool (_img_size, CV_8UC1);
+    Mat token(_img_size, cv::8UC1);
+    Mat pool (_img_size, cv::8UC1);
 
     pool = detectPool();
     token = isolateToken(pool);
@@ -187,7 +196,7 @@ bool TTTController::computeTokenOffset(cv::Point &offset)
     vector<cv::Vec4i> hierarchy;
     findContours(token, contours, hierarchy, cv::RETR_TREE, cv::CHAIN_APPROX_SIMPLE);
 
-    token = Mat::zeros(_img_size, CV_8UC1);
+    token = Mat::zeros(_img_size, cv::8UC1);
 
     // when hand camera is blind due to being too close to token, go straight down;
     if(contours.size() < 2)
@@ -245,8 +254,8 @@ bool TTTController::computeTokenOffset(cv::Point &offset)
 
 cv::Mat TTTController::detectPool()
 {
-    Mat black = Mat::zeros(_img_size, CV_8UC1);
-    Mat   out = Mat::zeros(_img_size, CV_8UC1);
+    Mat black = Mat::zeros(_img_size, cv::8UC1);
+    Mat   out = Mat::zeros(_img_size, cv::8UC1);
 
     isolateBlack(black);
     // imshow("black", black);
@@ -279,8 +288,8 @@ cv::Mat TTTController::detectPool()
 
 Mat TTTController::isolateToken(Mat pool)
 {
-    Mat blue = Mat::zeros(_img_size, CV_8UC1);
-    Mat out  = Mat::zeros(_img_size, CV_8UC1);
+    Mat blue = Mat::zeros(_img_size, cv::8UC1);
+    Mat out  = Mat::zeros(_img_size, cv::8UC1);
 
     isolateBlue(blue);    // imshow("blue", blue);
 
@@ -309,7 +318,7 @@ void TTTController::setDepth(float &dist)
     ros::Time start_time = ros::Time::now();
 
     // move downwards until collision with surface
-    while(RobotInterface::ok())
+    while(pandaWorking())
     {
         double px = init_pos.x;
         double py = init_pos.y;
@@ -334,7 +343,7 @@ void TTTController::setDepth(float &dist)
 void TTTController::processImage(float dist)
 {
     createCVWindows();
-    while(RobotInterface::ok())
+    while(pandaWorking())
     {
         Contours contours;
         vector<cv::Point> centroids, board_corners, cell_to_corner;
@@ -368,7 +377,7 @@ void TTTController::processImage(float dist)
                 // and inner loop is needed
                 ros::Time start = ros::Time::now();
                 int interval = 10;
-                while(RobotInterface::ok())
+                while(pandaWorking())
                 {
                     Mat zone = _curr_img.clone();
 
@@ -417,7 +426,7 @@ void TTTController::isolateBlack(Mat &output)
 
 void TTTController::isolateBlue(Mat &output)
 {
-    Mat hsv(_img_size, CV_8UC1);
+    Mat hsv(_img_size, cv::8UC1);
 
     std::lock_guard<std::mutex> lock(mutex_img);
     cvtColor(_curr_img, hsv, cv::gapi::BGR2HSV);
@@ -428,7 +437,7 @@ void TTTController::isolateBlue(Mat &output)
 void TTTController::isolateBoard(Contours &contours, int &board_area,
                                  vector<cv::Point> &board_corners, Mat input, Mat &output)
 {
-    output = Mat::zeros(_img_size, CV_8UC1);
+    output = Mat::zeros(_img_size, cv::8UC1);
 
     vector<cv::Vec4i> hierarchy; // captures contours within contours
 
@@ -716,7 +725,7 @@ bool TTTController::scanBoardImpl()
     if (!hoverAboveBoard()) return false;
 
     // wait for image callback
-    while(RobotInterface::ok())
+    while(pandaWorking())
     {
         if(!_is_img_empty) break;
 
@@ -739,14 +748,14 @@ bool TTTController::pickUpTokenImpl()
     ROS_INFO_COND(print_level>=2, "Picking up token..");
     setTracIK(true);
 
-    while(RobotInterface::ok())
+    while(pandaWorking())
     {
         if(isIRok()) break;
         r.sleep();
     }
 
     // wait for image callback
-    while(RobotInterface::ok())
+    while(pandaWorking())
     {
         if(!_is_img_empty) break;
         r.sleep();

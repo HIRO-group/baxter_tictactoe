@@ -59,7 +59,7 @@ public:
             return;
         }
 
-        cv::Mat img_hsv(cv_ptr->image.rows, cv_ptr->image.cols,CV_8UC3);
+        cv::Mat img_hsv(cv_ptr->image.rows, cv_ptr->image.cols,cv::8UC3);
         cv::cvtColor(cv_ptr->image, img_hsv, cv::gapi::BGR2HSV);
 
         cv::Mat img_thresh = hsvThreshold(img_hsv, hsv);

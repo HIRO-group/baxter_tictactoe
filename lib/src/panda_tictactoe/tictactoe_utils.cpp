@@ -132,13 +132,13 @@ bool Cell::computeState()
 
 cv::Mat Cell::maskImage(const cv::Mat &_src)
 {
-    cv::Mat mask = cv::Mat::zeros(_src.rows, _src.cols, CV_8UC1);
+    cv::Mat mask = cv::Mat::zeros(_src.rows, _src.cols, cv::8UC1);
 
     // cv::FILLED fills the connected components found with white
     cv::drawContours(mask, vector<vector<cv::Point> >(1,contour),
                                             -1, cv::Scalar(255), cv::FILLED);
 
-    cv::Mat im_crop(_src.rows, _src.cols, CV_8UC3);
+    cv::Mat im_crop(_src.rows, _src.cols, cv::8UC3);
     im_crop.setTo(cv::Scalar(0));
     _src.copyTo(im_crop, mask);
 
@@ -515,12 +515,12 @@ Contours Board::getContours()
 
 cv::Mat Board::maskImage(const cv::Mat &_src)
 {
-    cv::Mat mask = cv::Mat::zeros(_src.rows, _src.cols, CV_8UC1);
+    cv::Mat mask = cv::Mat::zeros(_src.rows, _src.cols, cv::8UC1);
 
     // cv::FILLED fills the connected components found with white
     cv::drawContours(mask, getContours(), -1, cv::Scalar(255), cv::FILLED);
 
-    cv::Mat im_crop(_src.rows, _src.cols, CV_8UC3);
+    cv::Mat im_crop(_src.rows, _src.cols, cv::8UC3);
     im_crop.setTo(cv::Scalar(0));
     _src.copyTo(im_crop, mask);
 
