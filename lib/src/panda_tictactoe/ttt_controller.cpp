@@ -11,7 +11,7 @@ using namespace cv;
 /*                            TTTController                               */
 /**************************************************************************/
 
-bool pandaWorking { // replacement for pandaWorking() , same code
+bool pandaWorking() { // replacement for RobotInterface::ok() , same code
 
     bool working = ros::ok();
     working = working && getState() != KILLED && getState() != STOPPED;
