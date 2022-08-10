@@ -420,7 +420,7 @@ void TTTController::isolateBlack(Mat &output)
 {
     Mat gray;
     std::lock_guard<std::mutex> lock(mutex_img);
-    cvtColor(_curr_img, gray, cv::gapi::BGR2GRAY);
+    cvtColor(_curr_img, gray, cv::COLOR_BGR2GRAY);
     threshold(gray, output, 55, 255, cv::THRESH_BINARY);
 }
 
@@ -429,7 +429,7 @@ void TTTController::isolateBlue(Mat &output)
     Mat hsv(_img_size, cv::8UC1);
 
     std::lock_guard<std::mutex> lock(mutex_img);
-    cvtColor(_curr_img, hsv, cv::gapi::BGR2HSV);
+    cvtColor(_curr_img, hsv, cv::COLOR_BGR2HSV);
 
     output = hsvThreshold(hsv, hsv_blue);
 }
