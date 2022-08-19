@@ -12,10 +12,10 @@ rospy.init_node('fake_board_sensor')
 
 EMPTY = BoardMsg.EMPTY
 BLUE = BoardMsg.BLUE
-red = BoardMsg.red
-SYMBOLS = {BLUE: 'X', red: 'O', EMPTY: ' '}
+RED = BoardMsg.RED
+SYMBOLS = {BLUE: 'X', RED: 'O', EMPTY: ' '}
 X = BLUE
-O = red
+O = RED
 
 pub = rospy.Publisher("baxter_tictactoe/board_state", BoardMsg)
 
