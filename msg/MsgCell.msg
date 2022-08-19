@@ -12,6 +12,6 @@
 
 string EMPTY=empty
 string BLUE=blue
-string RED=red
+string red=red
 
 string state

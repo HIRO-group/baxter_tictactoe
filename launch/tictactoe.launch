@@ -2,18 +2,18 @@
 <launch>
 
 
-    <!-- Range thresholds for the red tokens -->
+    <!-- Range thresholds for the ORANGE tokens -->
     <rosparam param = "ttt_controller/hsv_red">
-        H: [160,  20]
-        S: [ 40, 196]
-        V: [ 50, 196]
+        H: [0, 20]
+        S: [126, 228]
+        V: [221, 255]
     </rosparam>
 
     <!-- Range thresholds for the blue tokens -->
     <rosparam param = "ttt_controller/hsv_blue">
-        H: [ 60, 130]
-        S: [ 90, 256]
-        V: [ 10, 256]
+        H: [88, 120]
+        S: [126, 228]
+        V: [221, 255]
     </rosparam>
 
     <rosparam param = "ttt_controller/tile_pile_position">[0.52, 0.83, -0.09]</rosparam>
